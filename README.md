@@ -49,3 +49,118 @@ Definición de verbos HTTP y códigos de estado recomendados para el módulo de 
 | `/api/users/{id}` | `GET` | Consultar la información de un usuario específico. | `200 OK` | `404 Not Found` (Usuario no existe) <br> `401 Unauthorized` |
 | `/api/users/{id}` | `PUT` | Actualizar la información de un usuario existente. | `200 OK` | `400 Bad Request` <br> `404 Not Found` <br> `401 Unauthorized` |
 | `/api/users/{id}` | `DELETE` | Eliminar un usuario del sistema. | `200 OK` / `204 No Content` | `404 Not Found` <br> `401 Unauthorized` |
+
+---
+
+## Parte 2: Guía de la API RESTful de Usuarios y Autenticación
+
+### Requisitos Previos y Base de Datos MySQL
+1. Tener instalado **MySQL Workbench** / **MySQL Server** en `localhost:3306`.
+2. Las credenciales por defecto configuradas en `src/main/resources/application.properties` son:
+   - Usuario: `root`
+   - Contraseña: *(vacío por defecto)*
+   - Base de datos: `db_usuarios` (se creará automáticamente si no existe).
+
+### Ejecución del Proyecto desde VS Code
+- Abre el proyecto en VS Code.
+- Asegúrate de tener la extensión **Extension Pack for Java**.
+- Ejecuta la clase `com.ejemplo.usuarios.UsuariosApplication.java`.
+
+---
+
+### Endpoints Disponibles y Ejemplos de Pruebas (Postman / cURL)
+
+#### 1. Registro de Usuario
+- **POST** `http://localhost:8080/api/v1/auth/register`
+- **Headers**: `Content-Type: application/json`
+- **Body**:
+```json
+{
+  "nombre": "Usuario",
+  "email": "usuario@ejemplo.com",
+  "password": "micontraseña123"
+}
+```
+- **Respuesta (201 Created)**:
+```json
+{
+  "exito": true,
+  "mensaje": "Usuario registrado exitosamente",
+  "datos": {
+    "id": 1,
+    "nombre": "Usuario",
+    "email": "usuario@ejemplo.com",
+    "estado": "activo"
+  }
+}
+```
+
+#### 2. Inicio de Sesión (Login)
+- **POST** `http://localhost:8080/api/v1/auth/login`
+- **Body**:
+```json
+{
+  "email": "usuario@ejemplo.com",
+  "password": "micontraseña123"
+}
+```
+- **Respuesta Éxito (200 OK)**:
+```json
+{
+  "exito": true,
+  "mensaje": "Inicio de sesión exitoso",
+  "datos": {
+    "id": 1,
+    "nombre": "Usuario",
+    "email": "usuario@ejemplo.com",
+    "estado": "activo"
+  }
+}
+```
+- **Respuesta Credenciales Inválidas (401 Unauthorized)**:
+```json
+{
+  "exito": false,
+  "mensaje": "Credenciales inválidas (email o contraseña incorrectos).",
+  "datos": null
+}
+```
+
+#### 3. Obtener Lista de Usuarios
+- **GET** `http://localhost:8080/api/v1/users`
+- **Respuesta (200 OK)**:
+```json
+{
+  "exito": true,
+  "mensaje": "Lista de usuarios obtenida",
+  "datos": [
+    {
+      "id": 1,
+      "nombre": "Usuario",
+      "email": "usuario@ejemplo.com",
+      "estado": "activo"
+    }
+  ]
+}
+```
+
+#### 4. Obtener Usuario por ID
+- **GET** `http://localhost:8080/api/v1/users/1`
+- **Respuesta (200 OK)** o **(404 Not Found)** si no existe.
+
+#### 5. Actualizar Usuario
+- **PUT** `http://localhost:8080/api/v1/users/1`
+- **Body**:
+```json
+{
+  "nombre": "Usuario Editado",
+  "email": "usuario.nuevo@ejemplo.com",
+  "estado": "activo"
+}
+```
+- **Respuesta (200 OK)** o **(400 Bad Request)** si el email ya existe.
+
+#### 6. Desactivar / Eliminar Usuario
+- **DELETE** `http://localhost:8080/api/v1/users/1`
+- **Respuesta (200 OK)**
+
