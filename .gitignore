@@ -1,6 +1,11 @@
 target/
 *.class
 
+# Archivos de configuración local con credenciales
+src/main/resources/application.properties
+application.properties
+
+# Archivos de configuración de IDEs
 .classpath
 .project
 .settings/

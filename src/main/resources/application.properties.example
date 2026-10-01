@@ -1,8 +1,10 @@
 server.port=8080
 
+# Configuración de Conexión a Base de Datos MySQL
+# Copia este archivo a application.properties e ingresa tus credenciales locales
 spring.datasource.url=jdbc:mysql://localhost:3306/db_usuarios?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
 spring.datasource.username=root
-spring.datasource.password=Fernando13!
+spring.datasource.password=tu_contraseña_aqui
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 spring.jpa.hibernate.ddl-auto=update
