@@ -70,6 +70,10 @@ Definición de verbos HTTP y códigos de estado recomendados para el módulo de 
 
 ### Endpoints Disponibles y Ejemplos de Pruebas (Postman / cURL)
 
+> **Nota de Seguridad y Autenticación**:
+> - `/api/v1/auth/**` es público (no requiere autenticación para `/register` y `/login`).
+> - `/api/v1/users/**` está **protegido**. Para consumir estos endpoints se requiere **HTTP Basic Auth** enviando el `email` y la `password` de un usuario registrado en el header HTTP (`Authorization: Basic ...`).
+
 #### 1. Registro de Usuario
 - **POST** `http://localhost:8080/api/v1/auth/register`
 - **Headers**: `Content-Type: application/json`
@@ -126,8 +130,9 @@ Definición de verbos HTTP y códigos de estado recomendados para el módulo de 
 }
 ```
 
-#### 3. Obtener Lista de Usuarios
+#### 3. Obtener Lista de Usuarios (Protegido - Requiere HTTP Basic Auth)
 - **GET** `http://localhost:8080/api/v1/users`
+- **Auth**: Basic Auth (Username: `usuario@ejemplo.com`, Password: `micontraseña123`)
 - **Respuesta (200 OK)**:
 ```json
 {
@@ -144,12 +149,14 @@ Definición de verbos HTTP y códigos de estado recomendados para el módulo de 
 }
 ```
 
-#### 4. Obtener Usuario por ID
+#### 4. Obtener Usuario por ID (Protegido)
 - **GET** `http://localhost:8080/api/v1/users/1`
+- **Auth**: Basic Auth
 - **Respuesta (200 OK)** o **(404 Not Found)** si no existe.
 
-#### 5. Actualizar Usuario
+#### 5. Actualizar Usuario (Protegido)
 - **PUT** `http://localhost:8080/api/v1/users/1`
+- **Auth**: Basic Auth
 - **Body**:
 ```json
 {
@@ -160,7 +167,9 @@ Definición de verbos HTTP y códigos de estado recomendados para el módulo de 
 ```
 - **Respuesta (200 OK)** o **(400 Bad Request)** si el email ya existe.
 
-#### 6. Desactivar / Eliminar Usuario
+#### 6. Desactivar / Eliminar Usuario (Protegido)
 - **DELETE** `http://localhost:8080/api/v1/users/1`
+- **Auth**: Basic Auth
 - **Respuesta (200 OK)**
+
 
